@@ -1,0 +1,57 @@
+CS158A Project (Windows 10 test, Mac/Linux similar)
+==============================================================================
+To use DB2 (IBM)
+Download IBM DB2 Express-C (database "SAMPLE" will be created)
+https://www.ibm.com/developerworks/downloads/im/db2express/
+==============================================================================
+To play around with SAMPLE DATABASE, open "DB2 Command Window-Administrator"
+you may need to uncatalog database (run command lines below, CAP doesn't matter)
+
+db2 uncatalog database SAMPLE
+db2 catalog database SAMPLE
+db2 connect to SAMPLE
+db2 SELECT * FROM employee (should give you employee table)
+==============================================================================
+In case, SAMPLE database is not created (run command lines below)
+db2 list database directory /* if no database is listed, run command line below */
+db2sampl (or) db2sampl -force (this will create database SAMPLE)
+
+In case, SAMPLE database is created in system file,
+uncatalog database as above command lines for uncatalog/catalog
+==============================================================================
+Some useful command lines
+
+/* to go to first start page */
+db2fs
+/* to refresh */
+db2 terminate
+db2stop
+db2start
+==============================================================================
+Some errors code when you run-> db2 connect to sample
+
+You might see error below :::
+DB21034E  The command was processed as an SQL statement because it was not a
+valid Command Line Processor command.  During SQL processing it returned:
+SQL1024N  A database connection does not exist.  SQLSTATE=08003
+/* SAMPLE database might stored in system file, you may see database SAMPLE */
+/* But, require to make catalog database SAMPLE */
+(or)
+if you run-> db2 catalog database sample
+You may see error below:::
+SQL1005N  The database alias "sample" already exists in either the local
+database directory or system database directory.
+/* to resolve this problem, uncatalog database as above command lines for uncatalog/catalog */
+==============================================================================
+Some explanation about catalog:::
+
+CATALOG DATABASE automatically creates a system database directory 
+if one does not exist. The system database directory is stored on the path 
+that contains the database manager instance that is being used, 
+and is maintained outside of the database.
+
+List the contents of the system database directory using 
+the LIST DATABASE DIRECTORY command. 
+To list the contents of the local database directory 
+use the LIST DATABASE DIRECTORY ON path, where path is 
+where the database was created.
