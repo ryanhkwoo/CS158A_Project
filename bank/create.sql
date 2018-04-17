@@ -1,5 +1,6 @@
+--Ryan Woo
 --CS158A Group Project
-CREATE TABLE P1.Customer
+CREATE TABLE Customer
 (
 	ID     INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 100 INCREMENT BY 1),
 	Name   VARCHAR(15) NOT NULL,
@@ -13,7 +14,7 @@ CREATE TABLE P1.Customer
 	CONSTRAINT CHECK_PIN    CHECK (Pin >= 0)
 );
 
-CREATE TABLE P1.Account 
+CREATE TABLE Account 
 (
 	Number  INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1000 INCREMENT BY 1),
 	ID      INTEGER NOT NULL,
@@ -22,10 +23,10 @@ CREATE TABLE P1.Account
 	Status  CHAR NOT NULL,
 	
 	PRIMARY KEY (Number),
-	CONSTRAINT FK_ID FOREIGN KEY (ID) REFERENCES P1.Customer(ID) ON DELETE CASCADE,
+	CONSTRAINT FK_ID FOREIGN KEY (ID) REFERENCES Customer(ID) ON DELETE CASCADE,
 	CONSTRAINT CHECK_BALANCE CHECK (Balance >= 0),
 	CONSTRAINT CHECK_TYPE    CHECK (Type IN ('C','S')),
 	CONSTRAINT CHECK_STATUS  CHECK (Status IN ('A','I'))
 );
 
-CREATE VIEW P1.CustomerAccountsSummary AS SELECT P1.Customer.ID, P1.Customer.Name, P1.Customer.Age, P1.Customer.Gender, (SELECT SUM(Balance) FROM P1.Account WHERE P1.Account.ID=P1.Customer.ID AND P1.Account.Status <> '1') AS BalanceTotal FROM P1.Customer;
+CREATE VIEW CustomerAccountsSummary AS SELECT Customer.ID, Customer.Name, Customer.Age, Customer.Gender, (SELECT SUM(Balance) FROM Account WHERE Account.ID=Customer.ID AND Account.Status <> '1') AS BalanceTotal FROM Customer;
